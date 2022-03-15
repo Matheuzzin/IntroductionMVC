@@ -1,35 +1,38 @@
 <?php
 
-    $NOME = $_REQUEST['NOME'];
-    $ANIMAL = $_REQUEST['ANIMAL'];
+    $Nome = $_REQUEST['Nome'];
+    $Data = $_REQUEST['Data'];
+    $Bebida = $_REQUEST['Bebida'];
 
-    if(empty($NOME)){
+    $Ano_Atual = date('Y');
+    $Ano_Nasc = date("Y", strtotime($Data));
+
+    $idade = $Ano_Atual - $Ano_Nasc;
+
+    if(empty($Nome && $Data && $Bebida)){
         
         $dados = array(
             "tipo" => 'error',
             "mensagem" => 'Existem(m) campo(s) obrigatório(s) não preenchido(s).'
         );
     
-    } else {
+    } 
+    else {
+        if($idade >= 18)
+            $dados=array(
+                "mensagem" => "Olá senhor(a) " .$Nome ."<br> Vimos que sua bebida favorita é " . $Bebida.
+                " <br> Sua Idade é: " . $idade . " anos" . ", portanto você é de <b>MAIOR.</b>"
+            );
 
-        switch($ANIMAL){
-            case '1' : $dados = array(
-                "tipo" => 'cachorro.jpeg',
-                "mensagem" => 'Olá '.$NOME.', sabemos que seu animal preferido é o cachorro'
+        else{
+            $dados=array(
+                "mensagem" => "Olá senhor(a) " .$Nome ."<br> Vimos que sua bebida favorita é " . $Bebida .
+                " <br> Sua Idade é: " . $idade . " anos" . ", portanto você é de <b>MENOR.</b>"
             );
-            break;
-            case '2' : $dados = array(
-                "tipo" => 'gaviao.jpeg',
-                "mensagem" => 'Olá '.$NOME.', sabemos que seu animal preferido é o gavião'
-            );
-            break;
-            case '3' : $dados = array(
-                "tipo" => 'passarinho.jpg',
-                "mensagem" => 'Olá '.$NOME.', sabemos que seu animal preferido é o passarinho'
-            );
-            break;
         }
 
     }
 
     echo json_encode($dados);
+
+  
